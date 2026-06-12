@@ -1,0 +1,341 @@
+/* Help Wiki layout and long-form content shell */
+.helpShell {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 280px minmax(0, 1fr);
+  align-items: start;
+}
+
+.helpNavCol {
+  position: sticky;
+  top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.helpNavCard .content {
+  display: grid;
+  gap: 8px;
+}
+
+.helpSearchWrap {
+  display: grid;
+  gap: 8px;
+}
+
+#helpSearchInput {
+  width: 100%;
+}
+
+.helpSearchStatus {
+  font-size: 11px;
+  color: var(--muted);
+  min-height: 16px;
+}
+
+.helpSearchResults {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.helpSearchResultBtn {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.55);
+  color: var(--text);
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.helpSearchResultBtn:hover,
+.helpSearchResultBtn.isActive {
+  border-color: var(--stroke2);
+  background: rgba(255,255,255,0.86);
+}
+
+.helpSearchResultTitle {
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.helpSearchResultMeta {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.helpQuickLinks {
+  display: grid;
+  gap: 6px;
+}
+
+.helpQuickLinks a {
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px dashed var(--stroke);
+  border-radius: 9px;
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.34);
+}
+
+.helpQuickLinks a:hover {
+  border-color: var(--stroke2);
+  color: var(--text);
+  background: rgba(255,255,255,0.62);
+}
+
+.helpQuickLinks .rulesLink {
+  border-style: solid;
+  border-color: rgba(122,79,16,0.24);
+  background: rgba(196,154,58,0.10);
+  color: #6E4711;
+}
+
+.rulesSubNav {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.rulesSubNav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.46);
+  color: var(--text);
+  text-decoration: none;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.rulesSubNav a:hover {
+  border-color: var(--stroke2);
+  background: rgba(255,255,255,0.68);
+}
+
+.rulesSummaryGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rulesSummaryGrid .alert {
+  height: 100%;
+}
+
+.rulesTableWrap {
+  overflow: auto;
+  border-radius: 10px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.28);
+}
+
+.rulesTableWrap .tbl {
+  border: none;
+  border-radius: 0;
+  margin: 0;
+}
+
+.rulesBridge {
+  border: 1px dashed rgba(122,79,16,0.32);
+  background: rgba(196,154,58,0.11);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: #614014;
+}
+
+.rulesHint {
+  font-size: 11px;
+  color: var(--faint);
+}
+
+.helpMain {
+  display: grid;
+  gap: 12px;
+}
+
+.helpIntro .content {
+  display: grid;
+  gap: 10px;
+}
+
+.helpSection {
+  scroll-margin-top: 18px;
+}
+
+.helpSection .content {
+  display: grid;
+  gap: 10px;
+}
+
+.helpSection h3 {
+  margin: 2px 0;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.helpBadgeRow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.helpUpdated {
+  font-size: 11px;
+  color: #7A4F10;
+  border: 1px solid rgba(196,154,58,0.38);
+  background: rgba(196,154,58,0.10);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.helpNote {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.helpContent p,
+.helpContent li,
+.helpContent td,
+.helpContent dd {
+  line-height: 1.6;
+}
+
+.helpContent ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+}
+
+.helpContent ol {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 4px;
+}
+
+.helpGrid2 {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.helpGrid3 {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.helpDl {
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.helpDl dt {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.helpDl dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+.helpCode {
+  margin: 0;
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.55);
+  padding: 10px;
+  overflow: auto;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.helpCode code {
+  font-family: var(--mono);
+  color: var(--ink);
+}
+
+.helpCodeRow {
+  display: grid;
+  gap: 8px;
+}
+
+.helpSectionActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.helpFaq details {
+  margin-bottom: 8px;
+}
+
+.helpGlossaryRow {
+  border: 1px dashed var(--stroke);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.35);
+  padding: 8px;
+}
+
+.backTop {
+  justify-self: end;
+  font-size: 12px;
+}
+
+.skipLink {
+  position: absolute;
+  left: -9999px;
+}
+
+.skipLink:focus {
+  position: static;
+  left: auto;
+  display: inline-flex;
+  margin-bottom: 8px;
+}
+
+.helpMark {
+  background: rgba(196,154,58,0.34);
+  color: inherit;
+  border-radius: 4px;
+  padding: 0 2px;
+}
+
+.searchHit {
+  box-shadow: 0 0 0 2px rgba(196,154,58,0.28);
+}
+
+@media (max-width: 1040px) {
+  .helpShell {
+    grid-template-columns: 1fr;
+  }
+
+  .helpNavCol {
+    position: static;
+  }
+
+  .helpGrid2,
+  .helpGrid3,
+  .rulesSummaryGrid {
+    grid-template-columns: 1fr;
+  }
+}

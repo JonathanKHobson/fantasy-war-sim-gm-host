@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fantasy War Sim Player Session</title>
+    <link rel="stylesheet" href="./shared-theme.css">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="player-shell">
+      <header class="hero">
+        <div class="eyebrow">Collaborative Player Room</div>
+        <h1>Fantasy War Sim</h1>
+        <p>Join the shared room, mark yourself ready, and keep your latest plan visible for the whole table.</p>
+      </header>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Join</h2>
+          <span id="connectionState" class="pill muted">Connecting…</span>
+        </div>
+        <div class="form-grid">
+          <label>
+            Session code
+            <input id="sessionCode" type="text" autocomplete="one-time-code" maxlength="8">
+          </label>
+          <label>
+            Display name
+            <input id="playerName" type="text" maxlength="32" placeholder="Your name">
+          </label>
+        </div>
+        <div class="button-row">
+          <button id="joinButton" type="button">Join Room</button>
+          <button id="refreshButton" type="button" class="secondary">Refresh</button>
+        </div>
+        <div id="playerNotice" class="notice info" role="status">Waiting for the host connection.</div>
+      </section>
+
+      <section id="roomCard" class="card" hidden>
+        <div class="card-head">
+          <h2>Team Room</h2>
+          <span id="readyState" class="pill muted">Not ready</span>
+        </div>
+        <div class="room-summary">
+          <div id="sessionSummaryText" class="small">Not joined yet.</div>
+          <button id="readyButton" type="button">Set Ready</button>
+        </div>
+        <label>
+          Your latest plan
+          <textarea id="choiceText" rows="4" placeholder="Share the move, vote, or note the whole group should see."></textarea>
+        </label>
+        <div class="button-row">
+          <button id="submitChoiceButton" type="button">Update Team Board</button>
+        </div>
+      </section>
+
+      <section id="simulatorCard" class="card" hidden>
+        <div class="card-head">
+          <h2>Shared Simulator</h2>
+          <span id="simulatorStatusPill" class="pill muted">Room only</span>
+        </div>
+        <div class="simulator-card-copy">
+          Open the full Fantasy War Sim interface in a separate browser tab so it can use the full width of the browser window.
+        </div>
+        <div class="simulator-actions">
+          <button id="openSimulatorButton" type="button">Open Simulator</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Session Snapshot</h2>
+          <span id="snapshotMeta" class="pill muted">Waiting for host</span>
+        </div>
+        <div id="battleSnapshot" class="snapshot-block"></div>
+        <div id="warSnapshot" class="snapshot-block"></div>
+        <div id="historySnapshot" class="snapshot-block"></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Players</h2>
+          <span id="playerCountPill" class="pill muted">0 connected</span>
+        </div>
+        <div id="playerList" class="player-list"></div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

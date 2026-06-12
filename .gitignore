@@ -1,0 +1,19 @@
+.DS_Store
+.claude/
+node_modules/
+dist/
+test-results/
+tmp/
+progress.md
+*.log
+
+# Local tunnel / packaged-app / credential material
+*.pem
+*.key
+*.crt
+*.p12
+*.mobileprovision
+*.provisionprofile
+*.credentials.json
+cloudflared/
+

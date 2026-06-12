@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fantasy War Sim Hosted Simulator</title>
+    <link rel="stylesheet" href="./shared-theme.css">
+    <link rel="stylesheet" href="./simulator-shell.css">
+  </head>
+  <body>
+    <div class="sim-shell">
+      <header class="sim-banner">
+        <div class="sim-banner-copy">
+          <div class="eyebrow">Live Shared Simulator</div>
+          <h1>Fantasy War Sim</h1>
+          <p>Changes sync across the session. This tab uses the full browser area for the hosted simulator.</p>
+        </div>
+        <div class="sim-banner-actions">
+          <span id="simConnectionState" class="pill muted">Connecting…</span>
+          <span id="simSessionState" class="pill muted">Session pending</span>
+          <button id="backToRoomButton" type="button" class="secondary">Back to Room</button>
+        </div>
+      </header>
+
+      <div id="simNotice" class="sim-notice info" role="status">Preparing the simulator.</div>
+
+      <main class="sim-main">
+        <iframe id="simulatorFrame" title="Fantasy War Sim Hosted Simulator"></iframe>
+      </main>
+    </div>
+
+    <script type="module" src="./simulator-shell.js"></script>
+  </body>
+</html>

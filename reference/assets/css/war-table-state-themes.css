@@ -1,0 +1,437 @@
+/* 1) Base Runtime Theme Variables / Defaults */
+:root {
+  --paper-base: #EADFCA;
+  --paper-mid: #DDCEB3;
+  --paper-shadow: #C2AE8D;
+  --ink: #35271B;
+  --border: rgba(74, 52, 33, 0.28);
+
+  --paper-tint-1: var(--paper-base);
+  --paper-tint-2: var(--paper-mid);
+  --sky-top: rgba(255,255,255,0.03);
+  --sky-bottom: rgba(0,0,0,0.05);
+  --fx-light: rgba(255,255,255,0.14);
+  --fx-accent: rgba(255,255,255,0.06);
+  --fx-shadow: rgba(53,39,27,0.08);
+
+  --event-glow-1: rgba(154, 142, 196, 0);
+  --event-glow-2: rgba(90, 160, 168, 0);
+  --doom-glow: rgba(210, 80, 60, 0);
+
+  --defeat-paper-1: #E8D5CF;
+  --defeat-paper-2: #D9B8AE;
+  --defeat-accent: #D2503C;
+  --defeat-accent-soft: #B85B4C;
+  --defeat-border: rgba(138, 49, 34, 0.28);
+  --defeat-shadow: rgba(79, 24, 17, 0.18);
+  --defeat-ink-warm: #3B231D;
+
+  --fx-strength: 1;
+  --state-theme-transition: 180ms ease;
+
+  /* Phenomena signature tokens */
+  --phen-overlay-a: linear-gradient(transparent, transparent) 0 0 / auto no-repeat;
+  --phen-overlay-b: linear-gradient(transparent, transparent) 0 0 / auto no-repeat;
+  --phen-overlay-c: linear-gradient(transparent, transparent) 0 0 / auto no-repeat;
+  --phen-border: rgba(108, 92, 151, 0.35);
+  --phen-frame-shadow: 0 0 0 1px rgba(108, 92, 151, 0.15), 0 10px 30px rgba(53,39,27,0.22);
+  --phen-sparkle-opacity: 0;
+  --phen-streak-opacity: 0;
+  --phen-speckle-opacity: 0;
+  --phen-vignette-strength: 0;
+  --phen-corner-pool: 0;
+}
+
+body[data-intensity="1"] { --fx-strength: 1; }
+body[data-intensity="2"] { --fx-strength: 2; }
+body[data-intensity="3"] { --fx-strength: 3; }
+
+body[data-theme-strength="subtle"] {
+  --state-theme-weather-mult: 1;
+  --state-theme-phen-mult: 1;
+}
+body[data-theme-strength="dramatic"] {
+  --state-theme-weather-mult: 1.05;
+  --state-theme-phen-mult: 1.42;
+}
+
+/* 2) Season selectors */
+body[data-season="winter"] {
+  --sky-top: rgba(212, 227, 244, 0.09);
+  --sky-bottom: rgba(78, 96, 120, 0.08);
+}
+body[data-season="spring"] {
+  --sky-top: rgba(201, 229, 210, 0.08);
+  --sky-bottom: rgba(88, 123, 95, 0.06);
+}
+body[data-season="summer"] {
+  --sky-top: rgba(255, 230, 182, 0.08);
+  --sky-bottom: rgba(184, 130, 72, 0.07);
+}
+body[data-season="fall"] {
+  --sky-top: rgba(236, 206, 161, 0.10);
+  --sky-bottom: rgba(145, 98, 63, 0.08);
+}
+
+/* 3) Normal weather selectors */
+body[data-theme-weather-enabled="yes"][data-weather="clear"] {
+  --paper-tint-1: #F2E7CF;
+  --paper-tint-2: #E5D1AA;
+  --fx-accent: rgba(159,182,200,0.14);
+}
+body[data-theme-weather-enabled="yes"][data-weather="cloudy"] {
+  --paper-tint-1: #E6DCC6;
+  --paper-tint-2: #D5C6AB;
+  --fx-accent: rgba(123,135,147,0.14);
+}
+body[data-theme-weather-enabled="yes"][data-weather="heavy_clouds"] {
+  --paper-tint-1: #D9CFBC;
+  --paper-tint-2: #C7B79D;
+  --fx-accent: rgba(94,102,109,0.18);
+}
+body[data-theme-weather-enabled="yes"][data-weather="fog"] {
+  --paper-tint-1: #ECE4D4;
+  --paper-tint-2: #D8CFBF;
+  --fx-accent: rgba(143,160,161,0.18);
+}
+body[data-theme-weather-enabled="yes"][data-weather="rain"] {
+  --paper-tint-1: #E3DBC9;
+  --paper-tint-2: #CFC2AB;
+  --fx-accent: rgba(95,115,134,0.18);
+}
+body[data-theme-weather-enabled="yes"][data-weather="heavy_rain"] {
+  --paper-tint-1: #D8CFBF;
+  --paper-tint-2: #BCAE97;
+  --fx-accent: rgba(63,86,107,0.20);
+}
+body[data-theme-weather-enabled="yes"][data-weather="wind"] {
+  --paper-tint-1: #E7DCC7;
+  --paper-tint-2: #D3C3A8;
+  --fx-accent: rgba(122,141,147,0.16);
+}
+body[data-theme-weather-enabled="yes"][data-weather="thunderstorm"] {
+  --paper-tint-1: #D7CEBF;
+  --paper-tint-2: #BAA98F;
+  --fx-accent: rgba(67,61,99,0.24);
+}
+body[data-theme-weather-enabled="yes"][data-weather="freezing"] {
+  --paper-tint-1: #EBE5DB;
+  --paper-tint-2: #D9D6CF;
+  --fx-accent: rgba(142,168,184,0.16);
+}
+body[data-theme-weather-enabled="yes"][data-weather="snow"] {
+  --paper-tint-1: #F3EEE6;
+  --paper-tint-2: #DDD8D0;
+  --fx-accent: rgba(156,181,194,0.15);
+}
+body[data-theme-weather-enabled="yes"][data-weather="blizzard"] {
+  --paper-tint-1: #EFEAE2;
+  --paper-tint-2: #D8D6D3;
+  --fx-accent: rgba(129,152,166,0.19);
+}
+body[data-theme-weather-enabled="yes"][data-weather="dry"] {
+  --paper-tint-1: #EAD7B8;
+  --paper-tint-2: #D2B389;
+  --fx-accent: rgba(182,141,94,0.16);
+}
+body[data-theme-weather-enabled="yes"][data-weather="scorching"] {
+  --paper-tint-1: #F0DFBE;
+  --paper-tint-2: #DDB878;
+  --fx-accent: rgba(201,132,72,0.18);
+}
+body[data-theme-weather-enabled="yes"][data-weather="smog"] {
+  --paper-tint-1: #DDD1BF;
+  --paper-tint-2: #BFAE97;
+  --fx-accent: rgba(111,107,103,0.20);
+}
+
+/* 4) Phenomena selectors */
+body[data-theme-phenomena-enabled="yes"][data-phenomena="ashfall"] {
+  --paper-tint-1: #D4C6B7;
+  --paper-tint-2: #B39E8D;
+  --event-glow-1: rgba(126,109,104,0.32);
+  --event-glow-2: rgba(155,82,42,0.26);
+  --phen-border: rgba(125, 84, 51, 0.50);
+  --phen-frame-shadow: 0 0 0 1px rgba(125,84,51,0.26), 0 10px 30px rgba(58,35,21,0.30);
+  --phen-speckle-opacity: 1;
+  --phen-vignette-strength: 0.32;
+  --phen-corner-pool: 0.22;
+  --phen-overlay-a:
+    radial-gradient(circle, rgba(67,54,45, calc(0.22 * var(--phen-speckle-opacity) * var(--state-theme-phen-mult))) 0 1px, transparent 1.1px) 0 0 / 18px 18px repeat;
+  --phen-overlay-b:
+    radial-gradient(520px 280px at 50% 115%, rgba(221,120,57, calc(0.26 * var(--state-theme-phen-mult))), transparent 70%) 0 0 / auto no-repeat;
+}
+
+body[data-theme-phenomena-enabled="yes"][data-phenomena="solar_eclipse"] {
+  --paper-tint-1: #D7C9B2;
+  --paper-tint-2: #AA987E;
+  --event-glow-1: rgba(63,57,69,0.44);
+  --event-glow-2: rgba(35,31,41,0.34);
+  --phen-border: rgba(152, 129, 84, 0.52);
+  --phen-frame-shadow: 0 0 0 1px rgba(152,129,84,0.24), 0 12px 34px rgba(42,35,28,0.34);
+  --phen-vignette-strength: 0.56;
+  --phen-corner-pool: 0.34;
+  --phen-overlay-a:
+    radial-gradient(circle at 50% 12%, rgba(235,206,141, calc(0.20 * var(--state-theme-phen-mult))) 0 5%, rgba(33,29,39, calc(0.68 * var(--state-theme-phen-mult))) 8% 24%, transparent 30%) 0 0 / auto no-repeat;
+  --phen-overlay-b:
+    radial-gradient(1400px 760px at 50% 0%, rgba(26,24,31, calc(0.38 * var(--state-theme-phen-mult))), transparent 68%) 0 0 / auto no-repeat;
+}
+
+body[data-theme-phenomena-enabled="yes"][data-phenomena="strange_lights"] {
+  --paper-tint-1: #E5D8CB;
+  --paper-tint-2: #C8B6A3;
+  --event-glow-1: rgba(108,208,191,0.44);
+  --event-glow-2: rgba(183,126,226,0.48);
+  --phen-border: rgba(114, 176, 194, 0.58);
+  --phen-frame-shadow: 0 0 0 1px rgba(114,176,194,0.30), 0 12px 34px rgba(58,41,81,0.32);
+  --phen-sparkle-opacity: 0.72;
+  --phen-vignette-strength: 0.2;
+  --phen-corner-pool: 0.12;
+  --phen-overlay-a:
+    linear-gradient(122deg,
+      transparent 16%,
+      rgba(126,219,199, calc(0.32 * var(--state-theme-phen-mult))) 30%,
+      transparent 45%,
+      rgba(193,134,236, calc(0.30 * var(--state-theme-phen-mult))) 56%,
+      transparent 72%) 0 0 / auto no-repeat;
+  --phen-overlay-b:
+    linear-gradient(28deg,
+      transparent 8%,
+      rgba(116,188,216, calc(0.22 * var(--state-theme-phen-mult))) 26%,
+      transparent 40%) 0 0 / auto no-repeat;
+  --phen-overlay-c:
+    radial-gradient(circle, rgba(247,250,255, calc(0.26 * var(--phen-sparkle-opacity) * var(--state-theme-phen-mult))) 0 1px, transparent 1.1px) 0 0 / 130px 130px repeat;
+}
+
+body[data-theme-phenomena-enabled="yes"][data-phenomena="meteor_shower"] {
+  --paper-tint-1: #E3D3C3;
+  --paper-tint-2: #BFA88F;
+  --event-glow-1: rgba(84,113,157,0.42);
+  --event-glow-2: rgba(209,121,72,0.40);
+  --phen-border: rgba(120, 133, 181, 0.54);
+  --phen-frame-shadow: 0 0 0 1px rgba(120,133,181,0.26), 0 12px 34px rgba(48,44,58,0.34);
+  --phen-streak-opacity: 0.78;
+  --phen-sparkle-opacity: 0.24;
+  --phen-vignette-strength: 0.28;
+  --phen-corner-pool: 0.24;
+  --phen-overlay-a:
+    repeating-linear-gradient(132deg,
+      transparent 0 46px,
+      rgba(235,178,132, calc(0.34 * var(--phen-streak-opacity) * var(--state-theme-phen-mult))) 46px 48px,
+      rgba(104,142,197, calc(0.26 * var(--phen-streak-opacity) * var(--state-theme-phen-mult))) 48px 49px,
+      transparent 49px 92px) 0 0 / auto no-repeat;
+  --phen-overlay-b:
+    radial-gradient(circle, rgba(255,248,226, calc(0.20 * var(--phen-sparkle-opacity) * var(--state-theme-phen-mult))) 0 1px, transparent 1.2px) 0 0 / 180px 180px repeat;
+}
+
+body[data-theme-phenomena-enabled="yes"][data-phenomena="malevolent_storm"] {
+  --paper-tint-1: #CEC0B2;
+  --paper-tint-2: #9F8A77;
+  --event-glow-1: rgba(73,63,82,0.54);
+  --event-glow-2: rgba(37,31,42,0.46);
+  --phen-border: rgba(89, 71, 98, 0.62);
+  --phen-frame-shadow: 0 0 0 1px rgba(89,71,98,0.30), 0 14px 38px rgba(24,20,30,0.46);
+  --phen-vignette-strength: 0.72;
+  --phen-corner-pool: 0.62;
+  --phen-overlay-a:
+    radial-gradient(940px 620px at 14% 100%, rgba(33,24,38, calc(0.44 * var(--state-theme-phen-mult))), transparent 70%) 0 0 / auto no-repeat;
+  --phen-overlay-b:
+    radial-gradient(980px 620px at 88% 100%, rgba(45,35,52, calc(0.40 * var(--state-theme-phen-mult))), transparent 72%) 0 0 / auto no-repeat;
+}
+
+body[data-theme-phenomena-enabled="yes"][data-phenomena="wild_magic_storm"] {
+  --paper-tint-1: #E8D7CE;
+  --paper-tint-2: #C5AAA8;
+  --event-glow-1: rgba(118,210,226,0.52);
+  --event-glow-2: rgba(194,98,223,0.56);
+  --phen-border: rgba(133, 126, 219, 0.62);
+  --phen-frame-shadow: 0 0 0 1px rgba(133,126,219,0.30), 0 14px 38px rgba(66,40,87,0.38);
+  --phen-sparkle-opacity: 0.52;
+  --phen-vignette-strength: 0.32;
+  --phen-corner-pool: 0.22;
+  --phen-overlay-a:
+    radial-gradient(320px 220px at 18% 16%, rgba(106,230,233, calc(0.34 * var(--state-theme-phen-mult))), transparent 68%) 0 0 / auto no-repeat;
+  --phen-overlay-b:
+    radial-gradient(360px 240px at 84% 26%, rgba(207,98,226, calc(0.34 * var(--state-theme-phen-mult))), transparent 66%) 0 0 / auto no-repeat;
+  --phen-overlay-c:
+    radial-gradient(300px 200px at 46% 82%, rgba(138,122,238, calc(0.30 * var(--state-theme-phen-mult))), transparent 68%) 0 0 / auto no-repeat;
+}
+
+body[data-theme-phenomena-enabled="yes"][data-phenomena="magnetic_storm"] {
+  --paper-tint-1: #DCD0C3;
+  --paper-tint-2: #B8A28C;
+  --event-glow-1: rgba(103,145,171,0.44);
+  --event-glow-2: rgba(104,97,173,0.40);
+  --phen-border: rgba(100, 129, 165, 0.60);
+  --phen-frame-shadow: 0 0 0 1px rgba(100,129,165,0.30), 0 13px 34px rgba(36,44,62,0.34);
+  --phen-vignette-strength: 0.32;
+  --phen-corner-pool: 0.25;
+  --phen-overlay-a:
+    repeating-radial-gradient(ellipse at 88% 18%,
+      transparent 0 28px,
+      rgba(108,165,188, calc(0.28 * var(--state-theme-phen-mult))) 28px 30px,
+      transparent 30px 58px) 0 0 / auto no-repeat;
+  --phen-overlay-b:
+    repeating-radial-gradient(ellipse at 76% 26%,
+      transparent 0 44px,
+      rgba(121,111,186, calc(0.24 * var(--state-theme-phen-mult))) 44px 46px,
+      transparent 46px 74px) 0 0 / auto no-repeat;
+}
+
+body[data-theme-phenomena-enabled="yes"][data-phenomena="elemental_disturbance"] {
+  --paper-tint-1: #E1D3C2;
+  --paper-tint-2: #BFA48D;
+  --event-glow-1: rgba(88,170,163,0.48);
+  --event-glow-2: rgba(127,103,207,0.48);
+  --phen-border: rgba(117, 132, 176, 0.58);
+  --phen-frame-shadow: 0 0 0 1px rgba(117,132,176,0.28), 0 13px 36px rgba(44,43,63,0.36);
+  --phen-vignette-strength: 0.42;
+  --phen-corner-pool: 0.34;
+  --phen-overlay-a:
+    linear-gradient(132deg,
+      rgba(231,147,82, calc(0.20 * var(--state-theme-phen-mult))) 0%,
+      transparent 40%,
+      rgba(91,176,212, calc(0.22 * var(--state-theme-phen-mult))) 72%,
+      rgba(116,110,221, calc(0.20 * var(--state-theme-phen-mult))) 100%) 0 0 / auto no-repeat;
+  --phen-overlay-b:
+    repeating-linear-gradient(154deg,
+      transparent 0 18px,
+      rgba(255,255,255, calc(0.10 * var(--state-theme-phen-mult))) 18px 19px,
+      transparent 19px 37px) 0 0 / auto no-repeat;
+}
+
+/* 5) Intensity selectors (already set via --fx-strength above) */
+
+/* 6) Defeat state selectors */
+body[data-theme-defeat-enabled="yes"][data-state="defeat"] {
+  --doom-glow: rgba(210, 80, 60, 0.22);
+}
+body[data-theme-defeat-enabled="yes"][data-state="defeat"][data-defeat-side="mutual"] {
+  --doom-glow: rgba(210, 80, 60, 0.30);
+}
+
+/* 7) Component-level theme reach rules */
+body {
+  transition: background var(--state-theme-transition), color var(--state-theme-transition);
+}
+
+body[data-theme-weather-enabled="yes"],
+body[data-theme-phenomena-enabled="yes"][data-phenomena]:not([data-phenomena="none"]) {
+  background:
+    var(--phen-overlay-a),
+    var(--phen-overlay-b),
+    var(--phen-overlay-c),
+    radial-gradient(circle at 15% 22%, rgba(255,255,244, calc(0.22 * var(--phen-sparkle-opacity) * var(--state-theme-phen-mult))) 0 1.1px, transparent 1.2px) 0 0 / 180px 180px repeat,
+    radial-gradient(circle at 76% 34%, rgba(243,248,255, calc(0.18 * var(--phen-sparkle-opacity) * var(--state-theme-phen-mult))) 0 1.1px, transparent 1.2px) 0 0 / 210px 210px repeat,
+    radial-gradient(1200px 760px at 50% 16%, rgba(30,24,22, calc(var(--phen-vignette-strength) * 0.36 * var(--state-theme-phen-mult))), transparent 72%),
+    radial-gradient(900px 520px at 0% 100%, rgba(31,25,23, calc(var(--phen-corner-pool) * 0.40 * var(--state-theme-phen-mult))), transparent 72%),
+    radial-gradient(900px 520px at 100% 100%, rgba(31,25,23, calc(var(--phen-corner-pool) * 0.34 * var(--state-theme-phen-mult))), transparent 72%),
+    radial-gradient(1000px 700px at 12% -12%, var(--sky-top), transparent 65%),
+    radial-gradient(900px 600px at 88% 8%, var(--fx-accent), transparent 60%),
+    radial-gradient(1200px 700px at 50% 100%, var(--event-glow-1), transparent 72%),
+    radial-gradient(900px 520px at 0% 100%, var(--event-glow-2), transparent 70%),
+    linear-gradient(175deg, var(--paper-tint-1), var(--paper-tint-2));
+}
+
+body[data-theme-weather-enabled="yes"] .card,
+body[data-theme-weather-enabled="yes"] .historyCard,
+body[data-theme-weather-enabled="yes"] #warReportModal {
+  transition: background var(--state-theme-transition), border-color var(--state-theme-transition), box-shadow var(--state-theme-transition);
+}
+
+body[data-theme-weather-enabled="yes"] {
+  --panel: rgba(255,255,255,0.47);
+  --panel2: rgba(255,255,255,0.62);
+  --stroke: rgba(74,55,37,0.22);
+  --stroke2: rgba(74,55,37,0.40);
+  --shadow: 0 4px 18px rgba(43,31,22,0.15);
+}
+
+body[data-theme-phenomena-enabled="yes"][data-phenomena]:not([data-phenomena="none"]) .result,
+body[data-theme-phenomena-enabled="yes"][data-phenomena]:not([data-phenomena="none"]) .warReportOutcome,
+body[data-theme-phenomena-enabled="yes"][data-phenomena]:not([data-phenomena="none"]) #warReportModal {
+  border-color: var(--phen-border);
+  box-shadow: var(--phen-frame-shadow);
+}
+
+body[data-theme-phenomena-enabled="yes"][data-theme-strength="dramatic"][data-phenomena]:not([data-phenomena="none"]) {
+  --bg-map-opacity: 0.32;
+}
+body[data-theme-phenomena-enabled="yes"][data-theme-strength="subtle"][data-phenomena]:not([data-phenomena="none"]) {
+  --bg-map-opacity: 0.24;
+}
+
+body[data-theme-defeat-enabled="yes"][data-state="defeat"] {
+  background:
+    radial-gradient(800px 500px at 85% 6%, rgba(210,80,60,0.16), transparent 66%),
+    radial-gradient(1200px 800px at 50% 110%, var(--doom-glow), transparent 72%),
+    radial-gradient(900px 520px at 0% 100%, var(--event-glow-2), transparent 70%),
+    linear-gradient(175deg, var(--paper-tint-1), var(--paper-tint-2));
+}
+
+body[data-theme-defeat-enabled="yes"][data-state="defeat"] .warReportOutcome,
+body[data-theme-defeat-enabled="yes"][data-state="defeat"] .warReportDefeatedCallout,
+body[data-theme-defeat-enabled="yes"][data-state="defeat"] #resultHeadline {
+  text-shadow: 0 1px 0 rgba(255,255,255,0.22);
+}
+
+body[data-theme-defeat-enabled="yes"][data-state="defeat"][data-defeat-side="attacker"] [aria-label="Attacker panel"],
+body[data-theme-defeat-enabled="yes"][data-state="defeat"][data-defeat-side="defender"] [aria-label="Defender panel"] {
+  border-color: var(--defeat-border);
+  box-shadow: 0 0 0 1px rgba(210,80,60,0.16), 0 10px 22px var(--defeat-shadow);
+  background: linear-gradient(180deg, rgba(210,80,60,0.10), rgba(255,255,255,0.45));
+}
+
+body[data-theme-defeat-enabled="yes"][data-state="defeat"][data-defeat-side="mutual"] [aria-label="Attacker panel"],
+body[data-theme-defeat-enabled="yes"][data-state="defeat"][data-defeat-side="mutual"] [aria-label="Defender panel"] {
+  border-color: var(--defeat-border);
+  box-shadow: 0 0 0 1px rgba(210,80,60,0.16), 0 10px 22px var(--defeat-shadow);
+  background: linear-gradient(180deg, rgba(210,80,60,0.12), rgba(255,255,255,0.45));
+}
+
+body[data-theme-defeat-enabled="yes"][data-state="defeat"] #warReportModal {
+  border-color: var(--defeat-border);
+  box-shadow: 0 14px 42px var(--defeat-shadow);
+}
+
+body[data-theme-defeat-enabled="yes"][data-state="defeat"] .warReportOutcome {
+  background: linear-gradient(180deg, rgba(210,80,60,0.14), rgba(255,255,255,0.64));
+  border-color: rgba(210,80,60,0.32);
+  color: var(--defeat-ink-warm);
+}
+
+/* Toggles hard-disable layers while leaving mechanics untouched */
+body[data-theme-weather-enabled="no"] {
+  --paper-tint-1: var(--paper-base);
+  --paper-tint-2: var(--paper-mid);
+  --event-glow-1: rgba(154, 142, 196, 0);
+  --event-glow-2: rgba(90, 160, 168, 0);
+  --fx-accent: rgba(255,255,255,0.06);
+  --phen-overlay-a: linear-gradient(transparent, transparent) 0 0 / auto no-repeat;
+  --phen-overlay-b: linear-gradient(transparent, transparent) 0 0 / auto no-repeat;
+  --phen-overlay-c: linear-gradient(transparent, transparent) 0 0 / auto no-repeat;
+}
+body[data-theme-phenomena-enabled="no"] {
+  --event-glow-1: rgba(154, 142, 196, 0);
+  --event-glow-2: rgba(90, 160, 168, 0);
+  --phen-overlay-a: linear-gradient(transparent, transparent) 0 0 / auto no-repeat;
+  --phen-overlay-b: linear-gradient(transparent, transparent) 0 0 / auto no-repeat;
+  --phen-overlay-c: linear-gradient(transparent, transparent) 0 0 / auto no-repeat;
+  --phen-sparkle-opacity: 0;
+  --phen-streak-opacity: 0;
+  --phen-speckle-opacity: 0;
+}
+body[data-theme-defeat-enabled="no"] {
+  --doom-glow: rgba(210, 80, 60, 0);
+}
+
+/* 8) Reduced-motion / accessibility guardrails */
+@media (prefers-reduced-motion: reduce) {
+  body,
+  body .card,
+  body #warReportModal,
+  body .result,
+  body .warReportOutcome {
+    transition: none !important;
+  }
+}

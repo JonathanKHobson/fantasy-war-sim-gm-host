@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fantasy War Sim GM Host</title>
+    <link rel="stylesheet" href="./shared-theme.css">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="shell">
+      <div class="shell-chrome">
+        <header class="topbar">
+          <div class="brand">
+            <div class="eyebrow">Local macOS GM Host</div>
+            <h1>Fantasy War Sim GM Host</h1>
+          </div>
+          <div class="topbar-actions">
+            <button id="aboutToggle" class="button secondary" type="button" aria-expanded="false">About</button>
+            <button id="openDataFolder" class="button" type="button">Open App Data Folder</button>
+          </div>
+
+          <section id="aboutPanel" class="about-panel" hidden>
+            <div class="about-grid">
+              <div>
+                <div class="label">Version</div>
+                <div id="appVersion" class="value">Loading...</div>
+              </div>
+              <div>
+                <div class="label">Mode</div>
+                <div id="appMode" class="value">Loading...</div>
+              </div>
+              <div class="full-width">
+                <div class="label">User Data</div>
+                <div id="userDataPath" class="value path">Loading...</div>
+              </div>
+            </div>
+          </section>
+        </header>
+
+        <section class="host-bar" aria-label="GM hosting controls">
+          <div class="host-bar-summary">
+            <span id="hostStatusPill" class="status-pill status-off">Host Off</span>
+            <span id="hostModeBadge" class="mode-badge mode-local">Local</span>
+            <span id="hostSummaryText" class="host-summary-text">Hosting is off.</span>
+          </div>
+          <div class="host-bar-actions">
+            <button id="startPublicHostButton" class="button" type="button">Start Public Hosting</button>
+            <button id="startHostButton" class="button secondary" type="button">Start Local Only</button>
+            <button id="stopHostButton" class="button secondary" type="button">Stop</button>
+            <button id="copyInviteButton" class="button secondary" type="button">Copy Invite</button>
+            <button id="hostPanelToggle" class="button secondary" type="button" aria-expanded="false" aria-controls="hostDrawer">Host Details</button>
+          </div>
+        </section>
+
+        <div id="hostDrawerBackdrop" class="host-drawer-backdrop" hidden></div>
+
+        <aside id="hostDrawer" class="host-drawer" hidden>
+          <div class="host-drawer-head">
+            <div>
+              <div class="eyebrow">GM Host Controls</div>
+              <h2>Collaborative Room Hosting</h2>
+            </div>
+            <button id="closeHostDrawerButton" class="button secondary" type="button">Close</button>
+          </div>
+
+          <div class="host-panel-grid">
+            <div class="host-card">
+              <div class="label">Actions</div>
+              <div class="host-button-row">
+                <button id="refreshHostButton" class="button secondary" type="button">Refresh Player Snapshot</button>
+                <button id="openPublicInviteButton" class="button secondary" type="button">Open Invite</button>
+              </div>
+            </div>
+
+            <div class="host-card">
+              <div class="label">Public Hosting</div>
+              <div class="host-meta-list">
+                <div><strong>Quick Tunnel</strong><span>Primary path</span></div>
+                <div><strong>Named Backup</strong><span id="publicSetupStatusValue">Missing</span></div>
+                <div><strong>Configured Hostname</strong><span id="configuredHostnameValue">Not configured</span></div>
+              </div>
+              <div id="publicConfigMessageValue" class="host-config-message">Quick Tunnel starts immediately. Named setup is saved only as an advanced backup.</div>
+              <details class="host-advanced-details">
+                <summary>Advanced Backup Setup</summary>
+                <div class="host-config-grid">
+                  <label>
+                    <span class="field-label">Account ID</span>
+                    <input id="publicAccountIdInput" class="host-input" type="text" spellcheck="false" placeholder="Cloudflare account ID">
+                  </label>
+                  <label>
+                    <span class="field-label">Tunnel ID</span>
+                    <input id="publicTunnelIdInput" class="host-input" type="text" spellcheck="false" placeholder="Named tunnel UUID">
+                  </label>
+                  <label>
+                    <span class="field-label">Hostname</span>
+                    <input id="publicHostnameInput" class="host-input" type="text" spellcheck="false" placeholder="play.example.com">
+                  </label>
+                  <label class="host-config-credentials">
+                    <span class="field-label">Credentials JSON</span>
+                    <div class="host-file-row">
+                      <input id="publicCredentialsPathInput" class="host-input" type="text" spellcheck="false" placeholder="/path/to/credentials.json">
+                      <button id="pickCredentialsButton" class="button secondary" type="button">Browse</button>
+                    </div>
+                  </label>
+                </div>
+                <div class="host-button-row">
+                  <button id="savePublicConfigButton" class="button secondary" type="button">Save Backup Setup</button>
+                  <button id="clearPublicConfigButton" class="button secondary" type="button">Clear Backup Setup</button>
+                </div>
+              </details>
+            </div>
+
+            <div class="host-card">
+              <div class="label">Session</div>
+              <div class="host-meta-list">
+                <div><strong>Code</strong><span id="sessionCodeValue">Not started</span></div>
+                <div><strong>Public Invite</strong><span id="publicUrlValue">Not running</span></div>
+                <div><strong>Public Origin</strong><span id="publicOriginValue">Not running</span></div>
+                <div><strong>Local Invite</strong><span id="localUrlValue">Not running</span></div>
+                <div><strong>LAN Invite</strong><span id="lanUrlValue">Not running</span></div>
+                <div><strong>Tunnel</strong><span id="tunnelStatusValue">Idle</span></div>
+                <div><strong>Snapshot</strong><span id="snapshotSyncValue">Waiting for first sync</span></div>
+              </div>
+            </div>
+
+            <div class="host-card">
+              <div class="label">Status</div>
+              <div class="host-meta-list">
+                <div><strong>Players</strong><span id="connectedPlayersValue">0 connected</span></div>
+                <div><strong>Latest Error</strong><span id="hostErrorValue">None</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="host-card">
+            <div class="label">Player Room</div>
+            <div class="host-player-list" id="hostPlayerList">
+              <div class="host-player-empty">No players connected.</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <main class="app-frame-wrap">
+        <iframe
+          id="gmAppFrame"
+          title="Fantasy War Sim"
+          src="../reference/fantasy-war-sim.html"
+        ></iframe>
+      </main>
+    </div>
+
+    <script type="module" src="./renderer.js"></script>
+  </body>
+</html>

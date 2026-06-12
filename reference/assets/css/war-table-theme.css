@@ -1,0 +1,1980 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* TOKENS */
+:root {
+  --crimson:    #B00020;
+  --crimson2:   #8B2020;
+  --parchment:  #F3E9D2;
+  --parchment2: #EDE0C4;
+  --leather:    #5A3A1E;
+  --ink:        #2B1F16;
+  --cream:      #F7F3E9;
+  --tan:        #DCC7A1;
+  --gold:       #C49A3A;
+
+  /* Semantic tokens — Light Parchment Theme */
+  --bg0:     #F3E9D2;
+  --bg1:     #EDE0C4;
+  --panel:   rgba(220,199,161,0.55);
+  --panel2:  rgba(212,189,147,0.72);
+  --stroke:  rgba(74,55,37,0.18);
+  --stroke2: rgba(74,55,37,0.38);
+  --text:    #2B1F16;
+  --muted:   #5A3A1E;
+  --faint:   rgba(43,31,22,0.48);
+  --good:    #3E5F47;
+  --bad:     #7A3B3B;
+  --warn:    #C49A3A;
+  --att:     #7A3B3B;
+  --def:     #2B4A6F;
+  --focus:   rgba(196,154,58,0.45);
+  --shadow:  0 4px 16px rgba(43,31,22,0.14);
+  --radius:  14px;
+  --radius2: 20px;
+  --bg-map-size: 512px;
+  --bg-map-opacity: 0.2;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+  --ui:  'Cinzel', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  --sans: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+/* BASE */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--text);
+  background:
+    radial-gradient(900px 600px at 20% -5%, rgba(196,154,58,0.09), transparent 60%),
+    radial-gradient(700px 500px at 80% 5%,  rgba(122,59,59,0.06),  transparent 55%),
+    linear-gradient(175deg, #F7F3E9, #EDE0C4);
+  min-height: 100vh;
+}
+
+/* Parchment grain overlay */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg,
+      rgba(90,60,10,0.025) 0px, rgba(90,60,10,0.025) 1px,
+      transparent 2px, transparent 5px
+    );
+  mix-blend-mode: multiply;
+  opacity: 0.6;
+}
+body::after { content: none; }
+@media (min-width: 1024px) {
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background-image: url("../backgrounds/bg-map-parchment-tile.webp");
+    background-image: image-set(
+      url("../backgrounds/bg-map-parchment-tile.webp") 1x,
+      url("../backgrounds/bg-map-parchment-tile@2x.webp") 2x
+    );
+    background-repeat: repeat;
+    background-size: var(--bg-map-size) var(--bg-map-size);
+    mix-blend-mode: multiply;
+    opacity: var(--bg-map-opacity);
+  }
+}
+@media (prefers-reduced-data: reduce) {
+  body::after { content: none !important; }
+}
+
+.app {
+  position: relative; z-index: 1;
+  max-width: 1280px; margin: 0 auto;
+  padding: 16px 16px 40px;
+}
+
+header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 12px 12px 18px;
+  border-bottom: 1px solid var(--stroke);
+  margin-bottom: 14px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  max-width: 100%;
+}
+.brand h1 {
+  margin: 0; font-size: 24px; font-family: var(--ui);
+  color: #7A4F10; letter-spacing: 2px; font-weight: 700;
+}
+.brand .sub {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+.brand .pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  width: fit-content; padding: 5px 10px; border-radius: 999px;
+  background: rgba(196,154,58,0.12); border: 1px solid rgba(74,55,37,0.18);
+  font-size: 11px; color: var(--muted);
+  white-space: nowrap;
+}
+.brand .pill code {
+  font-family: var(--mono); color: #7A4F10; font-size: 11px;
+  background: rgba(196,154,58,0.12); padding: 1px 5px;
+  border-radius: 6px; border: 1px solid rgba(74,55,37,0.18);
+}
+
+footer {
+  margin-top: 18px; padding: 10px 12px;
+  color: var(--faint); font-size: 11px;
+  display: flex; gap: 10px; justify-content: space-between;
+  flex-wrap: wrap; border-top: 1px solid rgba(201,162,39,0.12);
+}
+footer code { font-family: var(--mono); color: var(--muted); }
+footer a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+footer a:hover { color: var(--text); }
+
+.pageHead {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+}
+.pageHead h2 {
+  margin: 0; font-size: 18px; font-family: var(--ui);
+  color: #7A4F10; letter-spacing: 0.5px; font-weight: 600;
+}
+
+.divider {
+  border: none; border-top: 1px solid var(--stroke);
+  margin: 14px 0;
+}
+
+.empty {
+  text-align: center; padding: 30px 20px;
+  color: var(--faint); font-size: 13px; line-height: 1.6;
+}
+.empty .emptyIcon { font-size: 28px; display: block; margin-bottom: 8px; }
+
+.scrollable { max-height: 420px; overflow-y: auto; padding-right: 4px; }
+.scrollable::-webkit-scrollbar { width: 5px; }
+.scrollable::-webkit-scrollbar-track { background: transparent; }
+.scrollable::-webkit-scrollbar-thumb { background: rgba(90,58,30,0.25); border-radius: 4px; }
+
+.historyPage {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  min-height: clamp(520px, 72vh, 1200px);
+}
+
+.historyListPane {
+  display: grid;
+  gap: 14px;
+  min-height: clamp(420px, 62vh, 1000px);
+}
+
+.icon { width: 20px; height: 20px; display: inline-block; vertical-align: middle; }
+
+/* NAV/TABS */
+#mainNav {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: flex-start;
+  min-width: 0;
+}
+.tab {
+  appearance: none; cursor: pointer; user-select: none;
+  display: inline-flex; align-items: center; gap: 5px;
+  border: 1px solid rgba(74,55,37,0.18); background: rgba(255,255,255,0.5);
+  color: var(--muted); padding: 7px 14px; border-radius: 999px;
+  font-size: 12px; font-family: var(--sans); letter-spacing: 0.3px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+}
+.tabIcon { width: 14px; height: 14px; flex-shrink: 0; }
+.tab:hover { background: rgba(255,255,255,0.82); color: var(--text); border-color: rgba(74,55,37,0.35); }
+.tab.active {
+  color: #7A4F10; border-color: rgba(196,154,58,0.55);
+  background: rgba(255,245,220,0.85);
+  box-shadow: 0 2px 8px rgba(196,154,58,0.2);
+  font-weight: 600;
+}
+.tab:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus); }
+.tab[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; }
+
+@media (max-width: 1120px) {
+  header {
+    grid-template-columns: 1fr;
+  }
+
+  #mainNav {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .brand .sub,
+  .brand .pill {
+    white-space: normal;
+  }
+}
+
+.tabPage { display: none; }
+.tabPage.active { display: block; }
+
+/* COMPONENTS */
+.card {
+  background: var(--panel); border: 1px solid var(--stroke);
+  border-radius: var(--radius2); box-shadow: var(--shadow); overflow: visible;
+}
+.card .cardHead {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 14px 10px;
+  border-bottom: 1px solid rgba(74,55,37,0.14);
+  background: linear-gradient(180deg, rgba(196,154,58,0.10), transparent);
+}
+.sideTitle { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.sideTitle h2 {
+  margin: 0; font-size: 16px; font-family: var(--ui);
+  color: var(--ink); letter-spacing: 0.5px; font-weight: 600;
+}
+.content { padding: 13px; }
+
+.settingsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.settingsGrid > * { min-width: 0; }
+.settingsSpanFull { grid-column: 1 / -1; }
+.settingsActions {
+  display: flex;
+  gap: 8px;
+  padding: 4px 0;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
+.row.single { grid-template-columns: 1fr; }
+.row.triple { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+label { display: grid; gap: 5px; font-size: 12px; color: var(--muted); }
+label.req::after { content: " *"; color: var(--crimson2); }
+
+@media (max-width: 980px) {
+  .settingsGrid { grid-template-columns: 1fr; }
+  .settingsSpanFull { grid-column: auto; }
+}
+
+input, select, button, textarea { font-family: var(--sans); font-size: 13px; }
+
+input[type="number"], input[type="text"], select, textarea {
+  width: 100%; padding: 9px 32px 9px 10px; border-radius: 10px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.72); color: var(--text); outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+select { padding-right: 36px; }
+input:focus, select:focus, textarea:focus {
+  box-shadow: 0 0 0 3px var(--focus);
+  border-color: rgba(196,154,58,0.6);
+}
+input::placeholder { color: var(--faint); }
+select option { background: #F7F3E9; color: var(--text); }
+
+.help { margin-top: 4px; font-size: 11px; color: var(--faint); line-height: 1.4; }
+.mono { font-family: var(--mono); color: var(--ink); }
+select:disabled, input:disabled, textarea:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn {
+  appearance: none; cursor: pointer; user-select: none; font-family: var(--sans);
+  border-radius: 10px; font-size: 12px; padding: 8px 12px;
+  border: 1px solid var(--stroke); background: rgba(255,255,255,0.55);
+  color: var(--muted); transition: all 0.15s;
+}
+.btn:hover { background: rgba(255,255,255,0.82); border-color: var(--stroke2); color: var(--text); }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus); }
+.btn.primary {
+  background: linear-gradient(160deg, #8B2020, #5C1212);
+  border-color: rgba(196,154,58,0.55); color: #F7F3E9;
+  font-weight: 600;
+}
+.btn.primary:hover { background: linear-gradient(160deg, #A32525, #6E1515); }
+.btn.ghost { background: rgba(255,255,255,0.35); border-color: var(--stroke); color: var(--muted); }
+.btn.ghost:hover { background: rgba(255,255,255,0.65); border-color: var(--stroke2); color: var(--text); }
+.btn.danger { border-color: rgba(122,59,59,0.4); color: #7A3B3B; background: rgba(122,59,59,0.08); }
+.btn.danger:hover { background: rgba(122,59,59,0.15); border-color: rgba(122,59,59,0.6); }
+.btn.small { padding: 5px 9px; font-size: 11px; border-radius: 8px; }
+.btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; filter: grayscale(0.4); }
+
+details {
+  border: 1px solid rgba(74,55,37,0.15); border-radius: var(--radius);
+  background: rgba(255,255,255,0.38); padding: 10px;
+}
+summary {
+  cursor: pointer; color: var(--muted); font-size: 12px;
+  list-style: none; display: flex; align-items: center;
+  justify-content: space-between; gap: 10px; user-select: none;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after {
+  content: "▾"; font-size: 12px; color: var(--muted); flex-shrink: 0;
+  transition: transform 0.2s ease; display: inline-block;
+}
+details[open] > summary::after { transform: rotate(180deg); }
+.summaryRight { font-size: 11px; color: var(--faint); font-family: var(--mono); }
+
+.alert {
+  padding: 9px 11px; border-radius: 12px;
+  border: 1px solid rgba(74,55,37,0.18);
+  background: rgba(255,255,255,0.55); color: var(--muted);
+  font-size: 12px; line-height: 1.4;
+}
+.alert.bad  { border-color: rgba(122,59,59,0.35); background: rgba(122,59,59,0.08); color: #7A3B3B; }
+.alert.good { border-color: rgba(62,95,71,0.35); background: rgba(62,95,71,0.08); color: var(--good); }
+.alert.warn { border-color: rgba(196,154,58,0.4); background: rgba(196,154,58,0.10); color: #7A4F10; }
+
+.tbl {
+  width: 100%; border-collapse: collapse; overflow: hidden;
+  border-radius: var(--radius); border: 1px solid rgba(74,55,37,0.15);
+  background: rgba(255,255,255,0.45); font-size: 12px;
+}
+.tbl th, .tbl td {
+  padding: 8px 10px; border-bottom: 1px solid rgba(74,55,37,0.08);
+  text-align: left; vertical-align: top; color: var(--muted);
+}
+.tbl th {
+  color: var(--ink); font-weight: 600;
+  background: rgba(196,154,58,0.10); font-size: 11px; letter-spacing: 0.4px;
+}
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:hover td { background: rgba(196,154,58,0.06); }
+.tbl td.mono { font-family: var(--mono); color: var(--ink); }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 9px; border-radius: 999px; font-size: 11px;
+  border: 1px solid rgba(74,55,37,0.22); background: rgba(255,255,255,0.55);
+  color: var(--muted); margin: 2px;
+}
+.chip button {
+  appearance: none; border: none; background: transparent;
+  color: var(--faint); cursor: pointer; font-size: 13px;
+  padding: 0; line-height: 1;
+}
+.chip button:hover { color: var(--bad); }
+.chip select {
+  width: auto;
+  min-width: 110px;
+  padding: 3px 22px 3px 8px;
+  font-size: 11px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid var(--stroke);
+}
+
+/* SHARED UTILITIES */
+.searchBar { position: relative; }
+.searchBar input { padding-left: 30px; }
+.searchBar::before {
+  content: "🔍";
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  pointer-events: none;
+}
+
+.panelToggle {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px dashed rgba(74,55,37,0.22);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.38);
+}
+.panelToggle > summary {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.panelToggleBody {
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+}
+
+/* BATTLE/REPORT COMPONENTS */
+.kpi {
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.45);
+  margin-top: 10px;
+}
+.kpiRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.kpiRow .label { font-size: 11px; color: var(--muted); }
+.kpiRow .value {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 600;
+}
+.battleScaleStatus {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+.battleScaleSummary { font-size: 12px; }
+
+.breakdown {
+  padding: 10px;
+  border: 1px dashed rgba(74,55,37,0.22);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.45);
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.breakdown b { color: var(--ink); }
+.breakdown code {
+  font-family: var(--mono);
+  color: #7A4F10;
+  font-size: 11px;
+  background: rgba(196,154,58,0.12);
+  border: 1px solid rgba(196,154,58,0.3);
+  padding: 1px 5px;
+  border-radius: 6px;
+}
+
+.breakdownDetails {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px dashed rgba(74,55,37,0.22);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.38);
+}
+.breakdownDetails > summary {
+  font-size: 12px;
+  color: var(--muted);
+  padding-bottom: 0;
+}
+.breakdownDetails[open] > summary { margin-bottom: 8px; }
+.breakdownDetails .breakdown {
+  margin-top: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.controls { display: grid; gap: 10px; margin-top: 12px; }
+.stepper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.45);
+}
+.stepper .left { display: grid; gap: 2px; }
+.stepper .left .t { font-size: 11px; color: var(--muted); }
+.stepper .left .n {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 600;
+}
+.btnRow { display: flex; gap: 6px; align-items: center; }
+
+.diceLine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+  margin-top: 5px;
+}
+.die {
+  font-family: var(--mono);
+  padding: 5px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.65);
+  font-size: 11px;
+  color: var(--text);
+  font-weight: 600;
+}
+.die.att {
+  border-color: rgba(122,59,59,0.45);
+  color: #7A3B3B;
+  background: rgba(122,59,59,0.08);
+}
+.die.def {
+  border-color: rgba(43,74,111,0.4);
+  color: #2B4A6F;
+  background: rgba(43,74,111,0.08);
+}
+
+.historyCard {
+  padding: 10px 12px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.5);
+  margin-bottom: 7px;
+  font-size: 12px;
+}
+.historyCard .hHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+}
+.historyCard .hTitle { font-size: 13px; color: var(--ink); font-weight: 600; }
+.historyCard .hDate { font-size: 11px; color: var(--faint); }
+.historyCard .hDetail { color: var(--muted); line-height: 1.5; }
+.historySummary {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.historySummary .line {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.historyDetails {
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+}
+.historyMiniGrid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 740px) {
+  .historyMiniGrid { grid-template-columns: 1fr; }
+}
+.historyOps {
+  font-size: 11px;
+  color: var(--muted);
+}
+.historyGroups {
+  display: grid;
+  gap: 14px;
+}
+.historySessionGroup,
+.historyTurnGroup {
+  display: block;
+  gap: 0;
+}
+.historySessionGroup {
+  border: 1px solid var(--stroke);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,251,242,0.92), rgba(255,255,255,0.72));
+  box-shadow: 0 8px 28px rgba(59, 42, 24, 0.08);
+  padding: 12px;
+}
+.historySessionGroup.legacy {
+  border-style: dashed;
+}
+.historySessionGroup.runtimePlaceholder {
+  border-style: dashed;
+  border-color: rgba(74,55,37,0.22);
+  background: linear-gradient(180deg, rgba(248,244,235,0.95), rgba(255,255,255,0.72));
+}
+.historySessionGroup.runtimePlaceholder .historyToggleBtn {
+  border-style: dashed;
+  border-color: rgba(74,55,37,0.22);
+  background: rgba(255,252,246,0.95);
+}
+.historyTurnGroup {
+  border: 1px solid rgba(74,55,37,0.14);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.48);
+  padding: 10px;
+  margin-left: 18px;
+}
+@media (max-width: 740px) {
+  .historyTurnGroup {
+    margin-left: 8px;
+  }
+}
+.historySessionPanel {
+  display: grid;
+  gap: 10px;
+  padding-top: 10px;
+}
+.historyTurnPanel {
+  display: grid;
+  gap: 10px;
+  padding-top: 10px;
+}
+.historyToggleBtn {
+  width: 100%;
+  border: 1px solid var(--stroke);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.88);
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.historyToggleBtn::after {
+  margin-left: auto;
+}
+.historySessionToggle {
+  background: linear-gradient(180deg, rgba(255,248,235,0.95), rgba(255,255,255,0.86));
+  border-color: rgba(124, 92, 53, 0.26);
+}
+.historyTurnToggle {
+  background: rgba(255,255,255,0.92);
+}
+.historyToggleBtn:hover {
+  border-color: var(--stroke2);
+  background: rgba(255,255,255,0.9);
+}
+.historyToggleBtn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus);
+}
+.historyToggleLead {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1 1 240px;
+}
+.historyToggleLabelWrap {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.historyToggleTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.historyToggleSub {
+  font-size: 11px;
+  color: var(--muted);
+}
+.historyToggleMeta {
+  font-size: 11px;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.historySessionGroup[open] > .historyToggleBtn,
+.historyTurnGroup[open] > .historyToggleBtn {
+  border-color: var(--stroke2);
+}
+.historyRuntimeChip {
+  color: #2B4A6F;
+  background: rgba(43,74,111,0.12);
+}
+.historyPlaceholderBody {
+  border: 1px dashed rgba(74,55,37,0.22);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.82);
+  padding: 12px 14px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.historyEmptyState {
+  min-height: clamp(320px, 48vh, 620px);
+  display: grid;
+  align-content: center;
+}
+.historyTurnPanel > .historyCard:last-child {
+  margin-bottom: 0;
+}
+.commitHint {
+  font-size: 11px;
+  color: var(--faint);
+  margin-bottom: 6px;
+}
+
+/* Badge overrides — preserve final cascade order */
+.badge {
+  display: inline-flex; align-items: center;
+  font-size: 11px; padding: 3px 8px; border-radius: 999px;
+  border: 1px solid var(--stroke); background: rgba(90,58,30,0.20);
+  color: var(--muted);
+}
+.badge.att {
+  border-color: rgba(196,30,58,0.45); color: #e06070;
+  background: rgba(176,0,32,0.15);
+}
+.badge.def {
+  border-color: rgba(74,144,196,0.40); color: #7ab8e8;
+  background: rgba(74,144,196,0.12);
+}
+.badge.gold {
+  border-color: rgba(201,162,39,0.45); color: var(--gold);
+  background: rgba(201,162,39,0.12);
+}
+
+.badge {
+  display: inline-flex; align-items: center;
+  font-size: 11px; padding: 2px 8px; border-radius: 999px;
+  background: rgba(90,58,30,0.10);
+  color: var(--muted); border: none; font-weight: 500;
+}
+.badge.att {
+  color: #7A3B3B; background: rgba(122,59,59,0.10);
+}
+.badge.def {
+  color: #2B4A6F; background: rgba(43,74,111,0.10);
+}
+.badge.gold {
+  color: #7A4F10; background: rgba(196,154,58,0.14);
+}
+
+/* Preserve final overrides for these globally shared selectors */
+header {
+  background: rgba(255,255,255,0.4);
+  border-radius: var(--radius);
+  border-bottom: 1px solid rgba(74,55,37,0.14);
+  margin-bottom: 14px;
+}
+footer {
+  color: var(--faint); background: rgba(255,255,255,0.35);
+  border-radius: var(--radius); border-top: 1px solid rgba(74,55,37,0.12);
+}
+footer code { font-family: var(--mono); color: var(--muted); }
+label { display: grid; gap: 5px; font-size: 13px; color: var(--muted); }
+.empty { color: var(--muted); }
+
+/* DIALOG */
+dialog {
+  max-width: 680px; width: calc(100% - 28px);
+  border: 1px solid var(--stroke2); border-radius: 18px;
+  background: #F7F3E9; color: var(--text);
+  box-shadow: 0 12px 40px rgba(43,31,22,0.25); padding: 0;
+}
+dialog::backdrop { background: rgba(43,31,22,0.45); }
+.dlgHead {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; padding: 14px 16px 12px;
+  border-bottom: 1px solid rgba(74,55,37,0.15);
+  background: linear-gradient(180deg, rgba(196,154,58,0.10), transparent);
+}
+.dlgHead h3 { margin: 0; font-size: 15px; font-family: var(--ui); color: var(--ink); }
+.dlgBody { padding: 14px 16px; display: grid; gap: 10px; }
+.dlgFoot {
+  display: flex; gap: 8px; justify-content: flex-end; padding-top: 8px;
+}
+
+/* WAR_TABLE_V3 PAGE-SPECIFIC (migrated from inline style) */
+    /* Shared global theme moved to assets/css/war-table-theme.css */
+
+    /* ── Layout grid ──────────────────────────────────────────────── */
+    .battleGrid {
+      display: grid; gap: 12px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 980px) {
+      .battleGrid { grid-template-columns: minmax(0, 1fr) minmax(0, 300px) minmax(0, 1fr); align-items: start; }
+    }
+    .battleGrid > * { min-width: 0; }
+
+    .battleBtn {
+      width: 100%; display: inline-flex; align-items: center;
+      justify-content: center; gap: 10px; padding: 16px 20px;
+      border-radius: 14px; cursor: pointer;
+      border: 2px solid rgba(196,154,58,0.65);
+      background: linear-gradient(160deg, #8B2020, #5C1212);
+      color: #F7F3E9; font-weight: 700; letter-spacing: 1.5px;
+      font-size: 16px; font-family: var(--ui); text-transform: uppercase;
+      box-shadow: 0 6px 24px rgba(90,20,20,0.35),
+                  inset 0 1px 0 rgba(255,255,255,0.12),
+                  0 0 0 1px rgba(196,154,58,0.15);
+      transition: all 0.15s;
+    }
+    .battleBtn:hover {
+      background: linear-gradient(160deg, #A32525, #6E1515);
+      box-shadow: 0 8px 32px rgba(90,20,20,0.45), inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+    .battleBtn:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--focus); }
+    .battleBtn:disabled { opacity: 0.45; cursor: not-allowed; filter: grayscale(0.3); }
+    .battleBtn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 2px 12px rgba(90,20,20,0.4); }
+
+    /* ── Center / VS panel ────────────────────────────────────────── */
+    .center { position: sticky; top: 12px; }
+    @media (max-width: 979px) { .center { position: static; } }
+
+    .card.center {
+      overflow: hidden;
+      min-width: 0;
+      contain: inline-size;
+    }
+    .card.center .vs,
+    .card.center .battleActions,
+    .card.center .result,
+    .card.center .alert,
+    .card.center details,
+    .card.center .row {
+      min-width: 0;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .vs { display: grid; gap: 14px; padding: 16px 18px 18px; }
+    .vsTop { display: grid; gap: 8px; text-align: center; padding: 6px 0; }
+    .vsTop .big {
+      font-size: 32px; letter-spacing: 4px;
+      font-family: var(--ui); color: #7A4F10; font-weight: 700;
+    }
+    .vsTop .small {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
+
+    /* ── Result display ───────────────────────────────────────────── */
+    .result { display: grid; gap: 12px; padding: 0 10px 12px; }
+    .result .title { font-size: 12px; color: var(--muted); }
+    .result .who {
+      font-size: 22px;
+      font-weight: 700;
+      font-family: var(--ui);
+      color: var(--ink);
+      letter-spacing: 0.45px;
+      line-height: 1.16;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
+    }
+    #resultHeadline {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
+      display: block;
+      min-width: 0;
+      width: 100%;
+      padding: 2px 0 0;
+    }
+    #resultArea > .alert,
+    #resultArea > details,
+    #resultArea > .row { margin: 0; }
+    #resultArea > .row:last-child { padding-bottom: 6px; }
+    #validationMsg,
+    #resultSummary {
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
+    #resultArea details > div,
+    #resultArea .alert > div {
+      min-width: 0;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+    @media (max-width: 1180px) {
+      .result .who { font-size: 20px; letter-spacing: 0.35px; }
+    }
+    @media (max-width: 980px) {
+      .result .who { font-size: 18px; letter-spacing: 0.2px; }
+    }
+    .result.att-wins .who { color: var(--att); }
+    .result.def-wins .who { color: var(--def); }
+
+    /* ── War report modal ─────────────────────────────────────────── */
+    #warReportModal { max-width: 760px; }
+    .warReportWeatherStrip {
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(43,74,111,0.28);
+      background: rgba(220,232,248,0.45);
+      color: #2B4A6F;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+    .warReportStagingNotice {
+      padding: 7px 10px;
+      border-radius: 10px;
+      border: 1px dashed rgba(74,55,37,0.26);
+      background: rgba(255,255,255,0.42);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .warReportStagingWrap {
+      display: grid;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .warReportStageGrid {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: stretch;
+    }
+    .warReportStageVS {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      border-radius: 10px;
+      border: 1px solid rgba(196,154,58,0.35);
+      background: rgba(196,154,58,0.12);
+      color: #7A4F10;
+      font-family: var(--ui);
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 13px;
+      padding: 0 8px;
+    }
+    .warReportStageCommitRow {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .warReportStageCommitRow label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      gap: 4px;
+    }
+    .warReportStageCommitRow input {
+      padding: 8px 9px;
+      font-size: 12px;
+    }
+    .warReportOutcome {
+      padding: 10px 12px; border-radius: 12px;
+      border: 1px solid rgba(74,55,37,0.2);
+      background: rgba(255,255,255,0.6);
+      font-family: var(--ui); font-size: 20px; font-weight: 700;
+      color: var(--ink); letter-spacing: 0.4px;
+    }
+    .warReportOutcome.att { color: var(--att); }
+    .warReportOutcome.def { color: var(--def); }
+    .warReportOutcome.neutral { color: #7A4F10; }
+    .warReportWildMagicBanner {
+      padding: 8px 11px;
+      border-radius: 12px;
+      border: 1px solid rgba(196,154,58,0.4);
+      background: rgba(196,154,58,0.12);
+      color: #7A4F10;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+    .warReportDefeatedCallout {
+      padding: 9px 11px; border-radius: 12px;
+      border: 1px solid rgba(122,59,59,0.4);
+      background: rgba(122,59,59,0.08);
+      color: #7A3B3B; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .warReportGrid {
+      display: grid; gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @media (max-width: 660px) {
+      .warReportGrid { grid-template-columns: 1fr; }
+    }
+    .warReportCol {
+      border: 1px solid var(--stroke); border-radius: 12px;
+      background: rgba(255,255,255,0.5);
+      padding: 10px;
+      display: grid; gap: 7px;
+    }
+    .warReportCol h4 {
+      margin: 0; font-size: 13px; color: var(--ink);
+      font-family: var(--ui); font-weight: 600;
+    }
+    .warReportStat {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px; font-size: 12px; color: var(--muted);
+    }
+    .warReportStat b {
+      font-family: var(--mono); font-size: 13px; color: var(--ink);
+    }
+    .warReportSideDefeated {
+      display: inline-flex; align-items: center;
+      width: fit-content;
+      padding: 2px 7px; border-radius: 999px;
+      border: 1px solid rgba(122,59,59,0.35);
+      background: rgba(122,59,59,0.12);
+      color: #7A3B3B; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.4px;
+    }
+    .warReportDetails { margin-top: 2px; }
+    .warReportBreakdownGrid {
+      display: grid; gap: 10px; margin-top: 8px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @media (max-width: 760px) {
+      .warReportBreakdownGrid { grid-template-columns: 1fr; }
+    }
+    .warReportActionRow {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .warReportActionRow .btn.small {
+      min-height: 30px;
+      align-self: flex-end;
+    }
+    .warReportAutoControls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .warReportRoundLimitWrap {
+      display: grid;
+      gap: 3px;
+      min-width: 130px;
+    }
+    .warReportRoundLimitWrap label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .warReportRoundLimitWrap select {
+      width: 100%;
+      min-width: 0;
+      font-size: 12px;
+      padding: 6px 8px;
+    }
+    .warReportSessionLine {
+      margin-top: 2px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    .warReportSessionSummary {
+      border: 1px solid var(--stroke);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.45);
+      padding: 8px 10px;
+      display: grid;
+      gap: 8px;
+    }
+    .warReportSessionSummaryHead {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--ink);
+    }
+    .warReportSessionSummaryGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px 10px;
+    }
+    .warReportRoundList {
+      border: 1px solid var(--stroke);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.4);
+      padding: 8px 10px;
+      display: grid;
+      gap: 8px;
+    }
+    .warReportRoundListHead {
+      font-size: 12px;
+      color: var(--ink);
+    }
+    .warReportRoundRows {
+      display: grid;
+      gap: 6px;
+      max-height: 220px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+    .warReportRoundRow {
+      border: 1px solid rgba(74,55,37,0.16);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.45);
+      padding: 7px 8px;
+      display: grid;
+      gap: 4px;
+    }
+    .warReportRoundRowHead {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .warReportRoundRowMeta {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    @media (max-width: 760px) {
+      .warReportSessionSummaryGrid { grid-template-columns: 1fr; }
+      .warReportRoundLimitWrap { min-width: 120px; }
+    }
+    .warReportAutoStatus {
+      font-size: 11px;
+      color: var(--muted);
+      min-height: 16px;
+    }
+    #warReportModal .dlgFoot {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        "actions close"
+        "status close";
+      align-items: end;
+      gap: 8px 10px;
+      padding-top: 8px;
+    }
+    #warReportModal .warReportActionRow { grid-area: actions; }
+    #warReportModal .warReportAutoStatus { grid-area: status; }
+    #warReportClosePrimary {
+      grid-area: close;
+      min-width: 108px;
+      justify-self: end;
+      align-self: end;
+    }
+    #warReportClose {
+      min-width: 96px;
+      justify-content: center;
+    }
+    @media (max-width: 760px) {
+      .warReportStageGrid { grid-template-columns: 1fr; }
+      .warReportStageVS { min-height: 34px; }
+      .warReportStageCommitRow { grid-template-columns: 1fr; }
+      #warReportModal .dlgFoot {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "actions"
+          "status"
+          "close";
+      }
+      #warReportClosePrimary { justify-self: stretch; width: 100%; }
+    }
+
+    /* ── Army row in armies tab ───────────────────────────────────── */
+    .armyRow {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 8px; align-items: center; padding: 10px 12px;
+      border: 1px solid var(--stroke); border-radius: 12px;
+      background: rgba(255,255,255,0.5); margin-bottom: 7px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .armyRow:hover { border-color: var(--stroke2); box-shadow: 0 2px 8px rgba(43,31,22,0.08); }
+    .armyName { font-size: 13px; color: var(--ink); font-weight: 600; }
+    .armyMeta { font-size: 11px; color: var(--faint); margin-top: 2px; }
+    .armyStatusLine { font-size: 11px; margin-top: 4px; line-height: 1.45; }
+    .armyStatusLine.warn { color: #7A4F10; }
+    .armyStatusLine.bad { color: #7A3B3B; font-weight: 600; }
+    .armyActions { display: flex; gap: 6px; flex-shrink: 0; }
+
+    /* ── War Room: sticky summary row ────────────────────────────────
+     * War Status stays visible as GM scrolls down through detail panels.
+     * backdrop-filter gives it a frosted parchment feel.
+     */
+    .warRoomGrid > .card.warRoomSpanFull:first-child {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px) saturate(1.2);
+      -webkit-backdrop-filter: blur(8px) saturate(1.2);
+    }
+
+    /* ── War Room: visual hierarchy divider ──────────────────────────
+     * Thin separator between the full-width summary/resource rows and
+     * the detail row (Faction Relationships | Turn & Weather).
+     * Implemented as a ::before pseudo on the Faction Relationships card
+     * so no HTML change is needed.
+     */
+
+    .warRoomGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      align-items: start;
+    }
+    .warRoomSpanFull { grid-column: 1 / -1; }
+
+    /* War Resources: promoted row — spans full width, meters arranged in 2 columns */
+    .card.warRoomResources {
+      grid-column: 1 / -1;
+    }
+    .warRoomResourcesContent {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .warRoomStatusContent {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(260px, 0.9fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+    .warRoomStatusCards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .warRoomStatusCard,
+    .warRoomSignalCard,
+    .warMeterGroup,
+    .warRoomTurnStats,
+    .warRoomWeatherHistory,
+    .warRoomRelationList,
+    .warRoomAlliedList {
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.52);
+    }
+    .warRoomStatusCard {
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+    .warRoomStatusCard h3 {
+      margin: 0;
+      font-size: 13px;
+      color: var(--ink);
+    }
+    .warRoomStatusCard .warRoomStatusMeta {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .warRoomStatusValue {
+      font-family: var(--mono);
+      font-size: 22px;
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .warRoomSignalCard {
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+      align-content: center;
+    }
+    .warRoomSignalLabel,
+    .warRoomSubhead {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.25px;
+      text-transform: uppercase;
+    }
+    .warRoomSignalValue {
+      font-size: 24px;
+      font-family: var(--ui);
+      color: var(--ink);
+      line-height: 1.1;
+    }
+    .warRoomSignalMeta {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .warRoomSignalCard[data-tone="winning"] {
+      border-color: rgba(62,95,71,0.35);
+      background: linear-gradient(180deg, rgba(228,243,232,0.9), rgba(255,255,255,0.82));
+    }
+    .warRoomSignalCard[data-tone="winning"] .warRoomSignalValue { color: var(--good); }
+    .warRoomSignalCard[data-tone="losing"] {
+      border-color: rgba(122,59,59,0.35);
+      background: linear-gradient(180deg, rgba(245,230,230,0.9), rgba(255,255,255,0.82));
+    }
+    .warRoomSignalCard[data-tone="losing"] .warRoomSignalValue { color: var(--bad); }
+    .warRoomSignalCard[data-tone="contested"] {
+      border-color: rgba(196,154,58,0.35);
+      background: linear-gradient(180deg, rgba(250,243,223,0.9), rgba(255,255,255,0.82));
+    }
+    .warRoomSignalCard[data-tone="contested"] .warRoomSignalValue { color: #7A4F10; }
+    .warRoomRelationList,
+    .warRoomAlliedList,
+    .warRoomWeatherHistory {
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+    }
+    .warRoomRelationRow,
+    .warRoomWeatherEntry {
+      display: grid;
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid rgba(74,55,37,0.12);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.5);
+    }
+    .warRoomRelationRow {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+    }
+    .warRoomRelationMeta {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
+    .warRoomRelationName {
+      font-size: 13px;
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .warRoomRelationHint,
+    .warRoomWeatherEntryMeta,
+    .warMeterHint,
+    .warMeterTier,
+    .warRoomArmyMeta,
+    .warRoomArmyScale,
+    .warRoomEmpty {
+      font-size: 11px;
+      color: var(--faint);
+      line-height: 1.45;
+    }
+    .warRoomRelationControl {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+    .warRoomRelationBtn {
+      appearance: none;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.72);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .warRoomRelationBtn:hover {
+      border-color: var(--stroke2);
+      color: var(--ink);
+    }
+    .warRoomRelationBtn.is-active[data-relation="ally"] {
+      border-color: rgba(62,95,71,0.45);
+      background: rgba(62,95,71,0.12);
+      color: var(--good);
+    }
+    .warRoomRelationBtn.is-active[data-relation="neutral"] {
+      border-color: rgba(196,154,58,0.45);
+      background: rgba(196,154,58,0.12);
+      color: #7A4F10;
+    }
+    .warRoomRelationBtn.is-active[data-relation="enemy"] {
+      border-color: rgba(122,59,59,0.45);
+      background: rgba(122,59,59,0.12);
+      color: var(--bad);
+    }
+    .warRoomWeatherContent {
+      display: grid;
+      gap: 10px;
+    }
+    .warMeterGroup {
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+    }
+    .warMeterHead {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+    .warMeterHead h3 {
+      margin: 0;
+      font-size: 13px;
+      color: var(--ink);
+    }
+    .warMeterValue {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .warMeterControls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .warMeterButtons {
+      display: inline-flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .warMeterButtons .btn {
+      min-width: 38px;
+      justify-content: center;
+    }
+    .warMeterTrack {
+      position: relative;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(122,59,59,0.42) 0%, rgba(196,154,58,0.36) 35%, rgba(62,95,71,0.32) 70%, rgba(62,120,71,0.46) 100%);
+      overflow: hidden;
+    }
+    .warMeterTrackFill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 50%;
+      background: rgba(255,255,255,0.58);
+      border-right: 2px solid rgba(43,31,22,0.32);
+    }
+    .warRoomTurnStats {
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+    .warRoomTurnStatRow {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .warRoomTurnStatRow b {
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .warRoomWeatherEntryTitle {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .warRoomWeatherHistoryWrap {
+      display: grid;
+      gap: 8px;
+    }
+    .warRoomAlliedFaction {
+      border: 1px solid rgba(74,55,37,0.14);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.46);
+      padding: 10px;
+    }
+    .warRoomAlliedFaction > summary {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .warRoomAlliedFactionMeta {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .warRoomAlliedFactionBody {
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+    }
+    .warRoomArmyRow {
+      border: 1px solid rgba(74,55,37,0.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.58);
+      padding: 10px;
+      display: grid;
+      gap: 6px;
+    }
+    .warRoomArmyHead {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
+    .warRoomArmyName {
+      font-size: 13px;
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .warRoomArmyRecord {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .warRoomArmyStats {
+      display: flex;
+      gap: 8px 14px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .warRoomArmyStats b {
+      color: var(--ink);
+    }
+    .warRoomArmyDegraded {
+      color: #7A4F10;
+      font-weight: 600;
+    }
+    .warRoomArmyDefeated {
+      color: var(--bad);
+      font-weight: 700;
+    }
+    .gmAdjustBlock {
+      margin-top: 10px;
+    }
+
+    @media (max-width: 980px) {
+      .warRoomGrid,
+      .warRoomStatusContent {
+        grid-template-columns: 1fr;
+      }
+      .card.warRoomResources {
+        grid-column: auto;
+      }
+      .warRoomResourcesContent {
+        grid-template-columns: 1fr;
+      }
+      .warRoomStatusCards {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 760px) {
+      .warRoomRelationRow {
+        grid-template-columns: 1fr;
+      }
+      .warRoomRelationControl {
+        justify-content: flex-start;
+      }
+    }
+
+    .factionPickerRow { display: flex; gap: 8px; align-items: center; }
+    .factionPickerRow select { flex: 1; }
+    .factionChipWrap {
+      min-height: 30px; display: flex; flex-wrap: wrap; gap: 4px;
+      padding: 6px 4px; border: 1px dashed rgba(74,55,37,0.18); border-radius: 10px;
+      background: rgba(255,255,255,0.35);
+    }
+    .doctrineSection {
+      margin-top: 10px;
+      border: 1px dashed rgba(74,55,37,0.2);
+      border-radius: 12px;
+      padding: 8px;
+      background: rgba(255,255,255,0.35);
+      display: grid;
+      gap: 8px;
+    }
+    .doctrineHead {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    .doctrinePickerRow {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 6px;
+      align-items: center;
+    }
+    .doctrineChoiceRow {
+      display: none;
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .doctrineChoiceRow.visible { display: grid; }
+    .doctrineChipWrap {
+      min-height: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 6px 4px;
+      border: 1px dashed rgba(74,55,37,0.18);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.35);
+    }
+    .chip.ineligible {
+      border-style: dashed;
+      opacity: 0.78;
+      background: rgba(196,154,58,0.12);
+    }
+    .chipFlag {
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 999px;
+      border: 1px solid rgba(196,154,58,0.45);
+      color: #7A4F10;
+      background: rgba(196,154,58,0.12);
+    }
+    .doctrineToggleList {
+      display: grid;
+      gap: 4px;
+      margin-top: 2px;
+    }
+    .doctrineToggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .doctrineToggle input[type="checkbox"] { width: auto; margin: 0; }
+    .doctrineQueued {
+      font-size: 11px;
+      color: var(--faint);
+    }
+    .nearbySection {
+      margin-top: 0;
+      border: 1px dashed rgba(74,55,37,0.2);
+      border-radius: 12px;
+      padding: 8px;
+      background: rgba(255,255,255,0.3);
+      display: grid;
+      gap: 8px;
+    }
+    .commitDetails { margin-top: 12px; }
+    .nearbyGroup {
+      display: grid;
+      gap: 6px;
+      border: 1px dashed rgba(74,55,37,0.16);
+      border-radius: 10px;
+      padding: 6px;
+      background: rgba(255,255,255,0.3);
+    }
+    .nearbyGroupTitle {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    .nearbyPickerRow {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 6px;
+      align-items: center;
+    }
+    .nearbyList {
+      min-height: 28px;
+      display: grid;
+      gap: 6px;
+      padding: 2px;
+    }
+    .nearbyEntry {
+      border: 1px solid rgba(74,55,37,0.2);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.52);
+      padding: 6px;
+      display: grid;
+      gap: 6px;
+    }
+    .nearbyEntryHead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .nearbyEntryName {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .nearbyEntryControls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .nearbyEntryExtra {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .nearbyContext {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 10px;
+      margin-top: 2px;
+    }
+    .nearbyContext .autoToggle {
+      font-size: 11px;
+    }
+    @media (max-width: 600px) {
+      .nearbyContext { grid-template-columns: 1fr; }
+      .nearbyEntryControls { grid-template-columns: 1fr; }
+    }
+    .nearbyMuted {
+      font-size: 11px;
+      color: var(--faint);
+    }
+    /* ── Load army selector (battle panel) ────────────────────────── */
+    .battleSideChooser,
+    .battleSideSetup {
+      display: grid;
+      gap: 10px;
+    }
+    .battleSideChooser .btn {
+      justify-self: start;
+    }
+    .chooserOr {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 18px;
+      color: var(--faint);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.35px;
+    }
+    .chooserOr::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      border-top: 1px dashed rgba(74,55,37,0.2);
+      transform: translateY(-50%);
+    }
+    .chooserOr > span {
+      position: relative;
+      padding: 0 8px;
+      background: rgba(255,255,255,0.65);
+      border-radius: 999px;
+    }
+    .battleSideActions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+    }
+    .battleAdvancedSetup {
+      margin-top: 2px;
+    }
+    .battleAdvancedSetup > .panelToggleBody {
+      gap: 10px;
+    }
+    .battleAdvancedSetup > .panelToggleBody > .help {
+      margin-top: 2px;
+    }
+    .loadRow {
+      display: flex; gap: 6px; align-items: center; margin-top: 6px;
+    }
+    .loadRow select { flex: 1; }
+
+    /* ── Weather system ───────────────────────────────────────────── */
+    .weatherPanel {
+      display: grid; gap: 10px; padding: 10px;
+      border: 1px solid rgba(43,74,111,0.22); border-radius: 14px;
+      background: rgba(220,232,248,0.35); margin-top: 6px;
+    }
+    .weatherHeader {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px; flex-wrap: wrap;
+    }
+    .weatherTitle {
+      font-size: 12px; font-weight: 600; color: var(--ink);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .weatherTag {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px; border-radius: 999px; font-size: 11px;
+      font-weight: 600; letter-spacing: 0.3px;
+      border: 1px solid rgba(43,74,111,0.35);
+      background: rgba(220,232,248,0.65); color: #2B4A6F;
+    }
+    .weatherTag.phenomena {
+      border-color: rgba(100,50,140,0.4); color: #6B3490;
+      background: rgba(220,200,245,0.55);
+    }
+    .weatherTag.day   { border-color: rgba(196,154,58,0.45); color: #7A4F10; background: rgba(255,240,200,0.7); }
+    .weatherTag.night { border-color: rgba(60,70,120,0.35); color: #2B3560; background: rgba(200,210,240,0.6); }
+
+    .clockRow {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .clockDisplay {
+      font-family: var(--mono); font-size: 20px; color: #7A4F10;
+      min-width: 56px; text-align: center; font-weight: 700;
+    }
+    .clockLabel { font-size: 11px; color: var(--muted); }
+
+    .intensityBar {
+      display: flex; gap: 5px; align-items: center;
+    }
+    .intensityPip {
+      width: 22px; height: 10px; border-radius: 4px;
+      border: 1px solid rgba(74,144,196,0.3);
+      background: rgba(74,144,196,0.12); cursor: pointer; transition: all 0.15s;
+    }
+    .intensityPip.active {
+      background: rgba(74,144,196,0.7); border-color: rgba(74,144,196,0.8);
+      box-shadow: 0 0 6px rgba(74,144,196,0.4);
+    }
+    .intensityPip.active.sev3 { background: rgba(220,80,60,0.75); border-color: rgba(220,80,60,0.9); box-shadow: 0 0 6px rgba(220,80,60,0.4); }
+    .intensityPip.active.sev2 { background: rgba(201,162,39,0.75); border-color: rgba(201,162,39,0.9); box-shadow: 0 0 6px rgba(201,162,39,0.4); }
+
+    .weatherModLine {
+      display: flex; align-items: baseline; gap: 6px;
+      font-size: 11px; padding: 4px 8px; border-radius: 8px;
+      background: rgba(255,255,255,0.5); border: 1px solid rgba(74,55,37,0.12);
+    }
+    .weatherModLine .wSign { font-family: var(--mono); font-size: 13px; font-weight: 700; }
+    .weatherModLine .wSign.plus  { color: var(--good); }
+    .weatherModLine .wSign.minus { color: var(--bad); }
+    .weatherModLine .wLabel { color: var(--muted); }
+
+    .phenomenaBanner {
+      padding: 8px 10px; border-radius: 12px;
+      border: 1px solid rgba(100,50,140,0.35);
+      background: rgba(220,200,245,0.55); color: #6B3490;
+      font-size: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .phenomenaBanner .pIcon { font-size: 16px; flex-shrink: 0; }
+
+    .autoToggle {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; color: var(--muted); cursor: pointer; user-select: none;
+    }
+    .autoToggle input[type="checkbox"] { accent-color: #7A4F10; width: 13px; height: 13px; }
+
+    .weatherGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    @media (max-width: 600px) { .weatherGrid { grid-template-columns: 1fr; } }
+
+    /* ── Defeated army state ───────────────────────────────────────── */
+    .card.defeated .cardHead {
+      background: linear-gradient(180deg, rgba(122,59,59,0.15), transparent);
+      border-bottom-color: rgba(122,59,59,0.25);
+    }
+    .defeated-banner {
+      display: none;
+      margin: 4px 13px 0;
+      padding: 7px 11px;
+      background: rgba(122,59,59,0.08);
+      border: 1px solid rgba(122,59,59,0.28);
+      border-radius: 8px;
+      color: #7A3B3B;
+      font-size: 12px; font-weight: 600; line-height: 1.4;
+    }
+    .card.defeated .defeated-banner { display: block; }
+
+    /* ── Intensity pips light-mode ─────────────────────────────────── */
+    .intensityPip {
+      background: rgba(43,74,111,0.10); border-color: rgba(43,74,111,0.25);
+    }
+    .intensityPip.active {
+      background: rgba(43,74,111,0.6); border-color: rgba(43,74,111,0.8);
+      box-shadow: 0 0 5px rgba(43,74,111,0.3);
+    }
+    .intensityPip.active.sev3 { background: rgba(122,59,59,0.75); border-color: rgba(122,59,59,0.9); box-shadow: 0 0 5px rgba(122,59,59,0.4); }
+    .intensityPip.active.sev2 { background: rgba(196,154,58,0.75); border-color: rgba(196,154,58,0.9); box-shadow: 0 0 5px rgba(196,154,58,0.4); }
+
+    .battleActions {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .battleActions .battleBtn { width: 100%; }
+    .card.center .battleActions { align-items: stretch; }
+
+    .turnBtn {
+      appearance: none; cursor: pointer; user-select: none;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 7px 14px; border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.35);
+      color: var(--muted); font-size: 12px; font-family: var(--sans);
+      font-weight: 500; transition: all 0.15s;
+    }
+    .turnBtn:hover { background: rgba(255,255,255,0.65); border-color: var(--stroke2); color: var(--text); }
+    .turnBtn:active { transform: translateY(1px); }
+    .turnBtn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus); }
+    .commitRule { display: none; font-size: 11px; color: var(--warning, #b45309); }
+    .commitRule.visible { display: block; }
+    .card.bottom > details { padding: 12px 12px 4px; }
+    .battleBottomActions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      padding: 0 12px 12px;
+      border-top: 1px solid var(--stroke);
+    }
+    .battleBottomActionsLeft,
+    .battleBottomActionsRight {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .battleBottomActionsRight {
+      margin-left: auto;
+    }
+    .army-defeated {
+      opacity: 0.7;
+      border-color: rgba(180, 40, 40, 0.3) !important;
+      background: rgba(180, 40, 40, 0.04) !important;
+    }
+    .army-defeated .armyName { color: var(--muted); }
+    .badge.defeated {
+      background: rgba(180, 40, 40, 0.12);
+      color: rgba(180, 40, 40, 0.85);
+      border: 1px solid rgba(180, 40, 40, 0.25);
+      font-size: 10px; padding: 1px 6px; border-radius: 6px;
+    }
+    .card.center .turnBtn {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+    }
+    @media (min-width: 980px) and (max-width: 1140px) {
+      .card.center .vs { padding: 14px 14px 16px; gap: 12px; }
+      .card.center .result { padding: 0 6px 10px; gap: 10px; }
+      .card.center .result .who { font-size: 19px; letter-spacing: 0.2px; }
+      .card.center .turnBtn { padding: 7px 10px; }
+    }

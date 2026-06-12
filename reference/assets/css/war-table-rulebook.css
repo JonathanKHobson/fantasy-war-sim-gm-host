@@ -1,0 +1,290 @@
+/* Full rulebook reading surface (long-form, shared War Table theme) */
+.rulebookShell {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 290px minmax(0, 1fr);
+  align-items: start;
+}
+
+.rulebookNavCol {
+  position: sticky;
+  top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.rulebookNavCard .content {
+  display: grid;
+  gap: 8px;
+}
+
+.rulebookSearchWrap {
+  display: grid;
+  gap: 8px;
+}
+
+#rulebookSearchInput {
+  width: 100%;
+}
+
+.rulebookSearchStatus {
+  font-size: 11px;
+  color: var(--muted);
+  min-height: 16px;
+}
+
+.rulebookSearchResults {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.rulebookSearchResultBtn {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.55);
+  color: var(--text);
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.rulebookSearchResultBtn:hover,
+.rulebookSearchResultBtn.isActive {
+  border-color: var(--stroke2);
+  background: rgba(255,255,255,0.85);
+}
+
+.rulebookSearchResultTitle {
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.rulebookSearchResultMeta {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.rulebookTocList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  max-height: 58vh;
+  overflow: auto;
+}
+
+.rulebookTocList li {
+  display: block;
+}
+
+.rulebookTocList li a {
+  display: block;
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px dashed var(--stroke);
+  border-radius: 9px;
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.32);
+  font-size: 12px;
+}
+
+.rulebookTocList li a:hover {
+  border-color: var(--stroke2);
+  color: var(--text);
+  background: rgba(255,255,255,0.6);
+}
+
+.rulebookTocList li.lvl1 a { padding-left: 8px; font-weight: 700; }
+.rulebookTocList li.lvl2 a { padding-left: 14px; font-weight: 600; }
+.rulebookTocList li.lvl3 a { padding-left: 20px; }
+.rulebookTocList li.lvl4 a { padding-left: 26px; }
+
+.rulebookActions {
+  display: grid;
+  gap: 8px;
+}
+
+.rulebookMainCol {
+  min-width: 0;
+}
+
+.rulebookCard .cardHead {
+  position: sticky;
+  top: 8px;
+  z-index: 2;
+  backdrop-filter: blur(2px);
+}
+
+.rulebookContent {
+  max-width: 980px;
+  margin: 0 auto;
+  line-height: 1.65;
+  color: var(--text);
+  display: grid;
+  gap: 10px;
+}
+
+.rulebookContent h1,
+.rulebookContent h2,
+.rulebookContent h3,
+.rulebookContent h4,
+.rulebookContent h5,
+.rulebookContent h6 {
+  color: var(--ink);
+  line-height: 1.25;
+  margin: 18px 0 8px;
+}
+
+.rulebookContent h1 {
+  font-size: 30px;
+}
+
+.rulebookContent h2 {
+  font-size: 24px;
+}
+
+.rulebookContent h3 {
+  font-size: 19px;
+}
+
+.rulebookContent h4,
+.rulebookContent h5,
+.rulebookContent h6 {
+  font-size: 16px;
+}
+
+.rulebookContent p,
+.rulebookContent li,
+.rulebookContent td,
+.rulebookContent th,
+.rulebookContent blockquote {
+  line-height: 1.65;
+}
+
+.rulebookContent p {
+  margin: 0;
+}
+
+.rulebookContent ul,
+.rulebookContent ol {
+  margin: 0;
+  padding-left: 22px;
+  display: grid;
+  gap: 5px;
+}
+
+.rulebookContent hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--stroke2), transparent);
+  margin: 14px 0;
+}
+
+.rulebookContent hr[style*="page-break-before"] {
+  display: none !important;
+}
+
+.rulebookContent table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 6px 0 10px;
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.38);
+  display: block;
+  overflow-x: auto;
+}
+
+.rulebookContent thead {
+  background: rgba(255, 255, 255, 0.64);
+}
+
+.rulebookContent th,
+.rulebookContent td {
+  border-bottom: 1px solid var(--stroke);
+  border-right: 1px solid var(--stroke);
+  padding: 8px 10px;
+  vertical-align: top;
+  text-align: left;
+  font-size: 13px;
+}
+
+.rulebookContent th:last-child,
+.rulebookContent td:last-child {
+  border-right: 0;
+}
+
+.rulebookContent tr:last-child td {
+  border-bottom: 0;
+}
+
+.rulebookContent code {
+  font-family: var(--mono);
+  background: rgba(255,255,255,0.52);
+  border: 1px solid var(--stroke);
+  border-radius: 6px;
+  padding: 1px 5px;
+}
+
+.rulebookContent a {
+  color: #6a4d1c;
+}
+
+.rulebookCompactIntro {
+  margin: 0;
+  border: 1px dashed rgba(122,79,16,0.28);
+  background: rgba(196,154,58,0.10);
+  color: #614014;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.legacyTocPanel {
+  display: grid;
+  gap: 8px;
+}
+
+.legacyTocDetails {
+  margin: 0;
+}
+
+.legacyTocBody {
+  display: grid;
+  gap: 4px;
+}
+
+.rulebookSearchHit {
+  box-shadow: 0 0 0 2px rgba(196,154,58,0.28);
+}
+
+@media (max-width: 900px) {
+  .rulebookShell {
+    grid-template-columns: 1fr;
+  }
+
+  .rulebookNavCol {
+    position: static;
+  }
+
+  .rulebookContent {
+    max-width: 100%;
+  }
+
+  .rulebookContent h1 {
+    font-size: 24px;
+  }
+
+  .rulebookContent h2 {
+    font-size: 20px;
+  }
+}

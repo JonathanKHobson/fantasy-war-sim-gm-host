@@ -1,0 +1,55 @@
+{
+  "name": "fantasy-war-sim-gm-host",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Local macOS GM host shell for Fantasy War Sim.",
+  "author": "Jonathan Hobson",
+  "main": "electron/main.mjs",
+  "type": "module",
+  "scripts": {
+    "audit:engine": "node ./scripts/audit-engine-coupling.mjs",
+    "test:core": "node --test",
+    "test:desktop": "node ./scripts/smoke-electron.mjs",
+    "test:reference": "playwright test -c ./reference/playwright.config.mjs",
+    "desktop:dev": "electron . --dev",
+    "desktop:start": "electron .",
+    "desktop:package": "electron-builder --mac dir"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "electron": "^37.2.6",
+    "electron-builder": "^26.0.12"
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
+  },
+  "build": {
+    "appId": "com.jonathanhobson.fantasy-war-sim-gm-host",
+    "productName": "Fantasy War Sim GM Host",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "desktop/**/*",
+      "electron/**/*",
+      "reference/**/*",
+      "src/**/*",
+      "scripts/**/*",
+      "README.md",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.games",
+      "target": [
+        {
+          "target": "dir",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ]
+    },
+    "asar": true
+  }
+}
