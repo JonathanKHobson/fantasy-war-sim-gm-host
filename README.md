@@ -2,7 +2,7 @@
 
 This workspace is the active product repo for the macOS GM host version of Fantasy War Sim.
 
-The original browser-only Fantasy War Sim source is now treated as a frozen backup/reference. Ongoing feature work happens only in this GM Host workspace.
+The separate [browser-only Fantasy War Sim](https://github.com/JonathanKHobson/fantasy-war-sim) remains a usable simulator and the source lineage for the vendored `reference/` runtime. This repository owns the macOS host, session service, and player experience. Host features and integration changes belong here; a change in the browser repository does not automatically update this copy.
 
 ## What Exists Now
 
@@ -92,9 +92,9 @@ npm run desktop:start
 
 ## Maintenance Workflow
 
-- Do not treat the original browser-only source as a live development target.
-- Do not dual-maintain both repos feature-by-feature.
-- All new product work belongs in this GM Host repo.
+- Keep host, session, and player features in this repository.
+- Coordinate browser-runtime changes with the browser repository when both experiences should receive them.
+- Do not assume the two runtime copies have identical revisions or behavior.
 - `reference/` should only be refreshed intentionally:
   - copy forward the source baseline
   - rerun regression checks
